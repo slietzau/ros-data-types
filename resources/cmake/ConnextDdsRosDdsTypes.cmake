@@ -94,6 +94,10 @@ macro(connextdds_generate_ros_dds_types)
 
     connextdds_sanitize_language(LANG ${_ROS_TYPES_LANG} VAR lang_var)
 
+    if(RTICONNEXTDDS_VERSION VERSION_GREATER 5.3.1)
+        set(stl STL)
+    endif()
+
     foreach(file ${_ROS_TYPES_IDL_FILES})
         # Obtain first the path to the IDL file
         get_filename_component(idl_path ${file} PATH)
@@ -116,6 +120,7 @@ macro(connextdds_generate_ros_dds_types)
             INCLUDE_DIRS ${_ROS_TYPES_INCLUDE_DIRS}
             ${unbounded}
             VAR generated_file
+            ${stl}
         )
 
         list(APPEND generated_file_list 
